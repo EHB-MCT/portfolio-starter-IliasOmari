@@ -38,6 +38,16 @@ app.put("/message/:id", async (req, res) => {
   res.status(200).send("Message updated successfully");
 });
 
+app.delete("/message/:id", async (req, res) => {
+  const messageId = req.params.id;
+  const remove = await knex("messages").where("id", messageId).del();
+  if (remove) {
+    return res.send("Message has been deleted");
+  } else {
+    return res.send("Message is not found");
+  }
+});
+
 app.listen(port, (err) => {
   if (!err) {
     console.log("running on port " + port);
