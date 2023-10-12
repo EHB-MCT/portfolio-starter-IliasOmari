@@ -26,6 +26,18 @@ app.post("/message", async (req, res) => {
   res.status(200).send("Message posted successfully");
 });
 
+app.put("/message/:id", async (req, res) => {
+  if (!req.body.content) {
+    return res.status(400).send("Please fill the missing fields");
+  }
+  const messageId = req.params.id;
+  await knex("messages")
+    .where("id", messageId)
+    .update({ content: req.body.content });
+
+  res.status(200).send("Message updated successfully");
+});
+
 app.listen(port, (err) => {
   if (!err) {
     console.log("running on port " + port);
