@@ -1,11 +1,11 @@
 const knex = require("knex")({
-  client: "mysql2",
+  client: "pg",
   connection: {
-    host: "127.0.0.1",
-    port: 3306,
-    user: "root",
-    password: "",
-    database: "messages",
+    host: process.env.POSTGRES_HOST,
+    port: 5432,
+    user: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
+    database: process.env.POSTGRES_DB,
   },
 });
 
