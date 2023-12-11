@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run migrate && npm run seed && npm run test && nodemon src/index.js --legacy-watch",
-    "test": "jest --detectOpenHandles",
+    "start": "npm run migrate && npm run seed && npm run test && node src/index.js",
+    "test": "jest --detectOpenHandles --forceExit",
     "test-watch": "jest --watchAll --detectOpenHandles",
     "migrate": "npx knex migrate:latest --cwd ./src/db",
     "seed": "npx knex seed:run --cwd ./src/db"
