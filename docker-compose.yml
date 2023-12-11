@@ -1,6 +1,5 @@
 services:
   api:
-    build: "images/api"
     image: iliasomari/api:latest
     ports:
       - 80:3000
@@ -31,6 +30,7 @@ services:
       POSTGRES_HOST_AUTH_METHOD:
     volumes:
       - ./_volumes/database:/var/lib/postgresql/data
+
   watchtower:
     image: containrrr/watchtower
     volumes:
