@@ -1,6 +1,7 @@
 services:
   api:
     build: "images/api"
+    command: ["npm", "run", "testcicd"]
     container_name: api
     ports:
       - 80:3000
