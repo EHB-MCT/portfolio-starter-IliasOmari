@@ -8,7 +8,8 @@
     "test": "jest --detectOpenHandles --forceExit",
     "test-watch": "jest --watchAll --detectOpenHandles",
     "migrate": "npx knex migrate:latest --cwd ./src/db",
-    "seed": "npx knex seed:run --cwd ./src/db"
+    "seed": "npx knex seed:run --cwd ./src/db",
+    "testcicd" : "npm run migrate && npm run seed && npm run test"
   },
   "author": "",
   "license": "ISC",
