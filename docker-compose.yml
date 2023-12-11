@@ -31,3 +31,8 @@ services:
       POSTGRES_HOST_AUTH_METHOD:
     volumes:
       - ./_volumes/database:/var/lib/postgresql/data
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 30
