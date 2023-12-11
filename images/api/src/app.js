@@ -5,7 +5,6 @@ const knexConfig = require("./db/knexfile.js");
 const carInput = require("./__test__/helpers/checkInputs.js");
 const knex = require("knex")(knexConfig.development);
 require("dotenv").config();
-const port = 3000;
 app.use(express.json());
 app.use(cors());
 
