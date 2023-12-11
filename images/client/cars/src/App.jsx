@@ -1,33 +1,45 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [cars, setCars] = useState([]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+    fetch("http://localhost:80/cars", { signal })
+      .then((response) => response.json())
+      .then((data) => {
+        setCars(data);
+        console.log(data);
+      });
+    return () => controller.abort();
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="title">
+        <h1>Mercedes Marvels</h1>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test
-        </p>
+
+      <div className="models">
+        {cars.map((cars, index) => {
+          return (
+            <div key={index} className="model">
+              <div className="projectImg">
+                <img src={cars.img} alt="car" />
+              </div>
+              <div className="projectInformation">
+                <div className="text">
+                  <h2>{cars.carModel}</h2>
+                  <p>{cars.manufacturer}</p>
+                  <br />
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   );
 }
