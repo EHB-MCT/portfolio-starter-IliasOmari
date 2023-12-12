@@ -13,10 +13,11 @@ body {
 
 .models {
   display: flex;
-  justify-content: space-evenly;
   align-items: center;
+  justify-content: center;
   gap: 2rem;
   margin-top: 70px;
+  flex-wrap: wrap;
 }
 
 .projectImg {

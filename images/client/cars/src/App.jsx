@@ -3,7 +3,15 @@ import "./App.css";
 
 function App() {
   const [cars, setCars] = useState([]);
-
+  const handleDelete = (car) => {
+    fetch(`http://localhost:80/cars/${car}`, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        location.reload();
+      });
+  };
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
@@ -19,7 +27,7 @@ function App() {
   return (
     <>
       <div className="title">
-        <h1>Mercedes Marvels</h1>
+        <h1>Mercedes Showroom</h1>
       </div>
 
       <div className="models">
@@ -34,6 +42,12 @@ function App() {
                   <h2>{cars.carModel}</h2>
                   <p>{cars.manufacturer}</p>
                   <br />
+                </div>
+
+                <div className="button">
+                  <button onClick={() => handleDelete(cars.carModel)}>
+                    Delete
+                  </button>
                 </div>
               </div>
             </div>
