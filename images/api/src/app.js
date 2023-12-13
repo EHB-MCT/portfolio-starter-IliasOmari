@@ -60,6 +60,7 @@ app.delete("/cars/:model", async (req, res) => {
   if (checkCar.length == 0) {
     return res.status(404).json({ error: "Car not found" });
   }
+  await knex("cars").where("carModel", carModel).del();
   return res.status(200).json({ message: "Car deleted" });
 });
 
