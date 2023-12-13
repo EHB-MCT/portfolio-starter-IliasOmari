@@ -4,12 +4,39 @@ import { motion } from "framer-motion";
 
 function App() {
   const [cars, setCars] = useState([]);
+  const [showForm, setShowForm] = useState(false);
+  const [inputs, setInputs] = useState({
+    manufacturer: "",
+    carModel: "",
+    img: "",
+  });
   const handleDelete = (car) => {
     fetch(`http://localhost:80/cars/${car}`, {
       method: "DELETE",
     })
       .then((response) => response.json())
       .then((data) => {
+        location.reload();
+      });
+  };
+
+  const show = () => {
+    setShowForm((prev) => !prev);
+  };
+
+  const addCar = (e) => {
+    e.preventDefault();
+    console.log(inputs);
+
+    fetch(`http://localhost:80/cars`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(inputs),
+    })
+      .then((response) => response.json())
+      .then(() => {
         location.reload();
       });
   };
@@ -20,7 +47,6 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         setCars(data);
-        console.log(data);
       });
     return () => controller.abort();
   }, []);
@@ -29,7 +55,67 @@ function App() {
     <>
       <div className="title">
         <h1>Mercedes Showroom</h1>
+        <div className="button-back">
+          <button onClick={show}>Add a new car</button>
+        </div>
       </div>
+
+      {showForm ? (
+        <div className="form_area">
+          <form onSubmit={addCar}>
+            <div className="form_group">
+              <label className="sub_title">Model name</label>
+              <input
+                type="text"
+                className="form_style"
+                name="carModel"
+                onChange={(e) =>
+                  setInputs((prev) => ({
+                    ...prev,
+                    [e.target.name]: e.target.value,
+                  }))
+                }
+              />
+            </div>
+
+            <div className="form_group">
+              <label className="sub_title">Manufacturer</label>
+              <input
+                type="text"
+                className="form_style"
+                name="manufacturer"
+                onChange={(e) =>
+                  setInputs((prev) => ({
+                    ...prev,
+                    [e.target.name]: e.target.value,
+                  }))
+                }
+              />
+            </div>
+            <div className="form_group">
+              <label className="sub_title">Picture URL</label>
+              <input
+                type="text"
+                className="form_style"
+                name="img"
+                onChange={(e) =>
+                  setInputs((prev) => ({
+                    ...prev,
+                    [e.target.name]: e.target.value,
+                  }))
+                }
+              />
+            </div>
+            <div className="form-button">
+              <button className="btn" type="submit">
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      ) : (
+        ""
+      )}
 
       <div className="models">
         {cars.map((cars, index) => {
