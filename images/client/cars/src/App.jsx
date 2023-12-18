@@ -1,6 +1,10 @@
-import { useEffect, useState } from "react";
+/* eslint-disable react/no-unknown-property */
+import { useEffect, useState, Suspense } from "react";
 import "./App.css";
 import { motion } from "framer-motion";
+import { Canvas } from "@react-three/fiber";
+import { Model } from "./Lambo";
+import { OrbitControls } from "@react-three/drei";
 
 function App() {
   const [cars, setCars] = useState([]);
@@ -15,7 +19,7 @@ function App() {
       method: "DELETE",
     })
       .then((response) => response.json())
-      .then((data) => {
+      .then(() => {
         location.reload();
       });
   };
@@ -54,14 +58,30 @@ function App() {
   return (
     <>
       <div className="title">
-        <h1>Mercedes Showroom</h1>
+        <h1>My Favourite Cars</h1>
+
         <div className="button-back">
-          <button onClick={show}>Add a new car</button>
+          <motion.button
+            onClick={show}
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          >
+            Add a new car
+          </motion.button>
         </div>
       </div>
 
       {showForm ? (
-        <div className="form_area">
+        <motion.div
+          className="form_area"
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{
+            duration: 0.8,
+            ease: [0, 0.71, 0.2, 1.01],
+          }}
+        >
           <form onSubmit={addCar}>
             <div className="form_group">
               <label className="sub_title">Model name</label>
@@ -112,7 +132,7 @@ function App() {
               </button>
             </div>
           </form>
-        </div>
+        </motion.div>
       ) : (
         ""
       )}
@@ -154,6 +174,31 @@ function App() {
             </motion.div>
           );
         })}
+      </div>
+      <div className="title">
+        <h1>My dream car in 3D</h1>
+      </div>
+
+      <div className="3d-object">
+        <Canvas
+          camera={{ position: [10, 3, 10], fov: 45 }}
+          style={{
+            height: "100vh",
+          }}
+        >
+          <Suspense fallback={null}>
+            <ambientLight intensity={3} />
+            <directionalLight intensity={5} />
+
+            <Model />
+          </Suspense>
+          <OrbitControls
+            enableZoom={false}
+            autoRotate={true}
+            autoRotateSpeed={3}
+            enableRotate={false}
+          />
+        </Canvas>
       </div>
     </>
   );
