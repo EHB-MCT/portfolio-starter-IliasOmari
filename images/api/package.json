@@ -9,7 +9,8 @@
     "test-watch": "jest --watchAll --detectOpenHandles",
     "migrate": "npx knex migrate:latest --cwd ./src/db",
     "seed": "npx knex seed:run --cwd ./src/db",
-    "testcicd" : "npm run migrate && npm run seed && npm run test"
+    "testcicd" : "npm run migrate && npm run seed && npm run test",
+    "production": "npm run migrate && npm run seed && node src/index.js"
   },
   "author": "",
   "license": "ISC",
